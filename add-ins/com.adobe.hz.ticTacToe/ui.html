@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="./main.bundle.css" />
+        <style>
+            :root {
+                --cell-size: 70px;
+                --cell-border-width: 1px;
+            }
+
+            section {
+                text-align: center;
+            }
+
+            .gameContainer {
+                display: grid;
+                grid-template-columns: repeat(3, auto);
+                width: calc(3 * var(--cell-size) + 2 * var(--cell-border-width));
+                margin: 10px auto;
+            }
+
+            .cell {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: var(--cell-size);
+                height: var(--cell-size);
+                box-shadow: 0 0 0 1px gray;
+                border: var(--cell-border-width) solid gray;
+                cursor: pointer;
+                line-height: var(--cell-size);
+                font-size: 40px;
+            }
+
+            .gameStatus {
+                margin: 7px auto;
+            }
+        </style>
+        <script type="module">
+            import AddInSDKAPI from "https://cces-wxp-sdk.stage.adobecces.com/sdk/1/sdk.js";
+
+            const updateCellKey = "sharedStorageKey:updateCell";
+
+
+            let statusDisplay;
+            let gameActive = true;
+            let currentPlayer = 0; // Tracks current player: 0 => firstPlayer, 1 => secondPlayer
+            let gameState = new Array(9).fill(-1);
+
+            const winningMessage = () => (currentPlayer ? "O" : "X") + " has won!";
+            const drawMessage = "Its a draw!";
+            const currentPlayerTurn = () => "It is " + (currentPlayer ? "O" : "X") + "'s turn";
+
+            const winningConditions = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            window.onload = async function () {
+                statusDisplay = document.querySelector(".gameStatus");
+                statusDisplay.innerHTML = currentPlayerTurn();
+
+                try {
+                    // SDK: Wait for SDK to be ready
+                    await AddInSDKAPI.ready;
+                    const sharedStorageData = JSON.parse(AddInSDKAPI.instance.sharedStorage.getItem(
+                        updateCellKey))
+                    if (sharedStorageData !== null) {
+                      updateWidgetData(sharedStorageData);
+                    }
+                    AddInSDKAPI.instance.on("storagechange", event => {
+                      const values = JSON.parse(event.newValue);
+                      if (values !== null) {
+                        updateWidgetData(values);
+                      }
+                    });
+                    console.log("SDK ready!");
+                } catch (e) {
+                    console.log(e);
+                    console.log("SDK init failed!");
+                }
+                document.querySelectorAll(".cell").forEach(cell => cell.addEventListener("click", handleCellClick));
+            };
+
+            function updateWidgetData(sharedStorageData) {
+              let i = 0;
+              document.querySelectorAll(".cell").forEach(cell => {
+                  updateCellImage(cell, sharedStorageData.gameState[i]);
+                  i++;
+              });
+              gameState = sharedStorageData.gameState
+              gameActive = sharedStorageData.gameActive;
+              currentPlayer = sharedStorageData.currentPlayer;
+              statusDisplay.innerHTML = sharedStorageData.statusDisplay;
+            }
+
+            function updateCellImage(clickedCell, value) {
+                clickedCell.innerHTML = value === 0 ? "<div>X</div>" : value === 1 ? "<div>O</div>" : "";
+            }
+
+            function handleCellPlayed(clickedCell, clickedCellIndex) {
+                gameState[clickedCellIndex] = currentPlayer;
+                updateCellImage(clickedCell, currentPlayer);
+            }
+
+            function handlePlayerChange() {
+                currentPlayer = currentPlayer ? 0 : 1;
+                statusDisplay.innerHTML = currentPlayerTurn();
+            }
+
+            function validateResult() {
+                let roundWon = false;
+                for (const winCondition of winningConditions) {
+                    let a = gameState[winCondition[0]];
+                    let b = gameState[winCondition[1]];
+                    let c = gameState[winCondition[2]];
+                    if ([a, b, c].includes(-1)) {
+                        continue;
+                    } else if (a === b && b === c) {
+                        roundWon = true;
+                        break;
+                    }
+                }
+                if (roundWon) {
+                    statusDisplay.innerHTML = winningMessage();
+                    gameActive = false;
+                    return;
+                }
+
+                let roundDraw = !gameState.includes(-1);
+                if (roundDraw) {
+                    statusDisplay.innerHTML = drawMessage;
+                    gameActive = false;
+                    return;
+                }
+
+                handlePlayerChange();
+            }
+
+            function handleCellClick(clickedCellEvent) {
+                const clickedCell = clickedCellEvent.target;
+                const clickedCellIndex = parseInt(clickedCell.getAttribute("data-cell-index"));
+
+                if (gameState[clickedCellIndex] !== -1 || !gameActive) {
+                    return;
+                }
+
+                handleCellPlayed(clickedCell, clickedCellIndex);
+                validateResult();
+                AddInSDKAPI.instance.sharedStorage.setItem(
+                    updateCellKey,
+                    JSON.stringify({gameState:gameState,
+                        currentPlayer:currentPlayer, gameActive:gameActive, statusDisplay:statusDisplay.innerHTML})
+                );
+            }
+
+            window.handleRestartGame = () => {
+                gameActive = true;
+                currentPlayer = 0;
+                gameState.fill(-1);
+                statusDisplay.innerHTML = currentPlayerTurn();
+                document.querySelectorAll(".cell").forEach(cell => updateCellImage(cell, -1));
+                AddInSDKAPI.instance.sharedStorage.setItem(
+                    updateCellKey,
+                    JSON.stringify({gameState:gameState,
+                    currentPlayer:currentPlayer, gameActive:gameActive, statusDisplay:statusDisplay.innerHTML})
+                );
+            }
+        </script>
+        <script src="./main.bundle.js"></script>
+        <script src="./vendor.js"></script>
+    </head>
+    <body>
+        <section id="gameScreen">
+            <div class="gameContainer">
+                <div data-cell-index="0" class="cell"></div>
+                <div data-cell-index="1" class="cell"></div>
+                <div data-cell-index="2" class="cell"></div>
+                <div data-cell-index="3" class="cell"></div>
+                <div data-cell-index="4" class="cell"></div>
+                <div data-cell-index="5" class="cell"></div>
+                <div data-cell-index="6" class="cell"></div>
+                <div data-cell-index="7" class="cell"></div>
+                <div data-cell-index="8" class="cell"></div>
+            </div>
+            <h2 class="gameStatus"></h2>
+            <sp-button onclick="handleRestartGame()">Restart</sp-button>
+        </section>
+    </body>
+</html>

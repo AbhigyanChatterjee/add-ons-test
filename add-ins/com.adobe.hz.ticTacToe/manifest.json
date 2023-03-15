@@ -1,0 +1,29 @@
+{
+    "id": "com.adobe.hz.ticTacToe",
+    "name" : "Tic-tac-toe",
+    "version": "1.0.1",
+    "manifestVersion": 1,
+    "main": "ui.html",
+    "requirements": {
+      "apps": ["Express"]
+    },
+    "entryPoints": [{
+      "type": "widget",
+      "id": "com.adobe.hz.ticTacToe.entrypoint1",
+      "label": "Tic-Tac_Toe",
+      "defaultSize" : {
+          "width" : 260,
+          "height" : 322
+      }
+    }],
+    "icon": {
+      "width": 100,
+      "height": 100,
+      "path": "TicTacToeWidgetIcon.jpeg",
+      "theme": ["all"]
+    },
+    "authorInfo": {
+      "name": "Adobe Inc.",
+      "email": "support@adobe.com"
+    }
+  }

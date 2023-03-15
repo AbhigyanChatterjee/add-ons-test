@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html><head><script type="module" src="ui.js"></script></head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="A Todo List widget with Store." />
+        <meta name="keywords" content="Adobe, Spice, Add-In, Widget, Todo List, Store" />
+        <meta name="author" content="Adobe" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <body>
+        <div class="wrapper">
+            <sp-theme
+                theme="spectrum"
+                color="light"
+                scale="medium">
+            <div class="--notes-heading">
+                <div class="--notes-title" id="titleEditor" tabindex="1">
+                    <h3 tabindex="-1" class="spectrum-Heading spectrum-Heading--sizeS" id="hdgTitle">Notes</h3>
+                    <sp-textfield id="txtTitle">Notes</sp-textfield>
+                </div>
+                <overlay-trigger placement="bottom-start">
+                    <sp-action-button quiet label="Edit" hold-affordance slot="trigger">
+                        <sp-swatch slot="icon" color="white" selected id="clrCurrent" rounding="full"></sp-swatch>
+                    </sp-action-button>
+                    <sp-popover slot="click-content" dialog tip>
+                        <sp-swatch-group selects="single" size="m" id="clrSelect">
+                            <sp-swatch color="white" selected></sp-swatch>
+                            <sp-swatch color="#F6EBA3"></sp-swatch>
+                            <sp-swatch color="#F5D5A0"></sp-swatch>
+                            <sp-swatch color="#EAB8BA"></sp-swatch>
+                            <sp-swatch color="#D9B7E4"></sp-swatch>
+                            <sp-swatch color="#C8B8F5"></sp-swatch>
+                            <sp-swatch color="#ABE7FC"></sp-swatch>
+                            <sp-swatch color="#A5CFE1"></sp-swatch>
+                            <sp-swatch color="#C2E9DB"></sp-swatch>
+                            <sp-swatch color="#D1D1D1"></sp-swatch>
+                        </sp-swatch-group>
+                    </sp-popover>
+                </overlay-trigger>
+                <div class="--notes-action-buttons" >
+                    <sp-action-group selects="single" compact selected='["formatted"]'>
+                        <sp-action-button label="Formatted" value="formatted" id="btnViewFormatted">
+                            <sp-icon slot="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18">
+                                    <defs> <style> .fill { fill: currentColor; } </style> </defs>
+                                    <rect class="fill" height="1" width="5" x="10" y="5" />
+                                    <rect class="fill" height="1" width="5" x="10" y="9" />
+                                    <rect class="fill" height="1" width="6" x="3" y="11" />
+                                    <rect class="fill" height="1" width="5" x="10" y="7" />
+                                    <rect class="fill" height="1" width="5" x="10" y="11" />
+                                    <rect class="fill" height="5" width="6" x="3" y="5" />
+                                    <path class="fill" d="M16.5,2H1.5a.5.5,0,0,0-.5.5v12a.5.5,0,0,0,.5.5h15a.5.5,0,0,0,.5-.5V2.5A.5.5,0,0,0,16.5,2ZM2,14V3H16V14Z" />
+                                  </svg>
+                            </sp-icon>
+                        </sp-action-button>
+                        <sp-action-button label="Edit Markdown" value="markdown" id="btnEditMarkdown">
+                            <sp-icon slot="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18">
+                                    <defs> <style> .fill { fill: currentColor; } </style> </defs>
+                                    <path class="fill" d="M17.7465,9.5305l-4.0965,4.16a.5.5,0,0,1-.70709.00541l-.00541-.00541-.4465-.4535a.503.503,0,0,1,0-.7L15.9715,9,12.492,5.4645a.503.503,0,0,1,0-.7l.4465-.4535a.5.5,0,0,1,.70709-.00541L13.651,4.311l4.0955,4.16A.76151.76151,0,0,1,17.7465,9.5305Z" />
+                                    <path class="fill" d="M.2535,8.4695,4.35,4.3095a.5.5,0,0,1,.70709-.00541l.00541.00541.4465.4535a.503.503,0,0,1,0,.7L2.0285,9,5.508,12.5355a.503.503,0,0,1,0,.7l-.4465.4535a.5.5,0,0,1-.70709.00541L4.349,13.689.2535,9.5305A.76151.76151,0,0,1,.2535,8.4695Z" />
+                                    <path class="fill" d="M7.7445,14.8435h-.572a.5.5,0,0,1-.483-.6295L9.7855,2.6935a.5.5,0,0,1,.483-.3705h.5525a.5.5,0,0,1,.483.627L8.2275,14.473A.5.5,0,0,1,7.7445,14.8435Z" />
+                                  </svg>
+                            </sp-icon>
+                        </sp-action-button>
+                    </sp-action-group>
+                </div>
+            </div>
+            <div id="render" class="spectrum-Typography">
+                ... Loading ...
+            </div>
+            <div id="editor">
+                <textarea placeholder="Type notes here" id="txtMarkdown" ></textarea>
+            </div>
+            </sp-theme>
+        </div>
+    </body>
+</html>

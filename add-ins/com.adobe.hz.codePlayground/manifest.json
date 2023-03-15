@@ -1,0 +1,37 @@
+{
+    "id": "com.adobe.hz.codePlayground",
+    "name": "Code Playground",
+    "version": "1.0.0",
+    "manifestVersion": 1,
+    "main": "index.html",
+    "requirements": {
+        "apps": ["Spice"]
+    },
+    "icon": [
+        {
+            "width": 100,
+            "height": 100,
+            "path": "icon-light.png",
+            "theme": ["light"]
+        },
+        {
+            "width": 100,
+            "height": 100,
+            "path": "icon-dark.png",
+            "theme": ["dark"]
+        }
+    ],
+    "entryPoints": [
+        {
+            "type": "widget",
+            "id": "com.adobe.hz.codePlayground.entrypoint1",
+            "label": {
+                "default": "Code Playground"
+            },
+            "defaultSize": {
+                "width": 640,
+                "height": 640
+            }
+        }
+    ]
+}

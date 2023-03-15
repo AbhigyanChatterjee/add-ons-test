@@ -1,0 +1,29 @@
+{
+    "id": "com.adobe.hz.timerPlugin",
+    "name" : "Timer Widget",
+    "version": "1.0.1",
+    "manifestVersion": 1,
+    "main": "ui.html",
+    "requirements": {
+      "apps": ["Express"]
+    },
+    "entryPoints": [{
+      "type": "widget",
+      "id": "com.adobe.hz.timerPlugin.entrypoint1",
+      "label": "Timer Widget",
+      "defaultSize" : {
+          "width" : 200,
+          "height" : 120
+      }
+    }],
+    "icon": {
+      "width": 100,
+      "height": 100,
+      "path": "TimerWidgetIcon.jpeg",
+      "theme": ["all"]
+     },
+     "authorInfo": {
+       "name": "Adobe Inc.",
+       "email": "support@adobe.com"
+     }
+  }

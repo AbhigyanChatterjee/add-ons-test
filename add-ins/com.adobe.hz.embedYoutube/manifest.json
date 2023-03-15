@@ -1,0 +1,33 @@
+
+{
+    "id": "com.adobe.hz.embedYoutube",
+    "name" : "Embed Youtube",
+    "version": "1.0.1",
+    "manifestVersion": 1,
+    "main": "ui.html",
+    "requirements": {
+      "apps": ["Express"]
+    },
+    "entryPoints": [{
+      "type": "widget",
+      "id": "com.adobe.hz.embedYoutube.entrypoint1",
+      "label": "Embed Youtube",
+      "defaultSize" : {
+          "width" : 300,
+          "height" : 300
+      },
+      "permissions": {
+        "sandbox": ["allow-same-origin", "allow-presentation"]
+      }
+    }],
+    "icon": {
+      "width": 200,
+      "height": 300,
+      "path": "YoutubeWidgetIcon.jpeg",
+      "theme": ["all"]
+    },
+    "authorInfo": {
+      "name": "Adobe Inc.",
+      "email": "support@adobe.com"
+    }
+  }

@@ -1,0 +1,29 @@
+{
+  "id": "com.adobe.hz.pollWidget-test",
+  "name" : "Poll Widget",
+  "version": "1.0.1",
+  "manifestVersion": 1,
+  "main": "ui.html",
+  "requirements": {
+    "apps": ["Express"]
+  },
+  "entryPoints": [{
+    "type": "widget",
+    "id": "com.adobe.hz.pollWidget.entrypoint1",
+    "label": "Poll Widget",
+    "defaultSize" : {
+      "width" : 240, 
+      "height" : 480
+    }
+  }],
+  "icon": {
+    "width": 100,
+    "height": 100,
+    "path": "PollWidgetIcon.jpeg",
+    "theme": ["all"]
+  },
+  "authorInfo": {
+    "name": "Adobe Inc.",
+    "email": "support@adobe.com"
+  }
+}

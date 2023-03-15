@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="./main.bundle.css" />
+    <style>
+      body {
+        padding: 5px;
+      }
+
+      .buttonContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      #startButton {
+        background: var(--spectrum-global-color-static-green-500);
+        padding-left: 17px;
+        padding-right: 11px;
+      }
+
+      #pauseButton {
+        background: var(--spectrum-global-color-orange-400);
+        display: none;
+      }
+
+      #stopButton {
+        background: var(--spectrum-global-color-static-red-400);
+        display: none;
+      }
+
+      #resetButton {
+        background: var(--spectrum-global-color-static-green-400);
+        display: none;
+      }
+
+      #time {
+        align-items: flex-end;
+      }
+
+      .flexContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      #main {
+        width: 100%;
+        display: flex;
+      }
+
+      .flexRow {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .flexRowItem {
+        font-weight: bold;
+        font-size: 20px;
+      }
+
+      .subtitle {
+        font-size: 10px;
+        color: var(--spectrum-global-color-static-gray-500);
+      }
+
+      .subtitleRow {
+        margin-top: -10px;
+      }
+
+      .nameInput {
+        height: 20px;
+        width: calc(100% - 12px);
+        border-radius: 5px;
+        padding-left: 5px;
+      }
+      sp-button {
+        min-width: 2px;
+        border-radius: 25px;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script type="module">
+      // SDK: Import  SDK
+      import AddOnSDKAPI from "https://cces-wxp-sdk.stage.adobecces.com/sdk/1/sdk.js";
+
+      const startTimerKey = "START";
+      const pauseTimerKey = "PAUSE";
+      const stopTimerKey = "STOP";
+      const resetTimerKey = "RESET";
+      const timerWidgetStorageKey = "sharedStorageKey:timerWidgetStorage";
+      const TimerString = "Timer";
+
+      let sec = 0;
+      let timerRunning = false;
+      let startTimeString = "";
+      let curStartTime = 0;
+      let timerDiv;
+      let userInputString = "";
+      let resetCount = 0;
+      let timerInterval = undefined;
+      let manifest = {};
+
+      /**
+       *  On-load.
+       * */
+      window.onload = async function () {
+        timerDiv = document.getElementById("time");
+        document.getElementById("pluginName").innerHTML = TimerString;
+        try {
+          // SDK: Wait for SDK to be ready
+          await AddOnSDKAPI.ready;
+
+          // SDK: Manifest data
+          manifest = await AddOnSDKAPI.instance.manifest;
+          manifestDataDump();
+
+          // SDK: Storage API
+          const storedWidgetData = JSON.parse(
+            AddOnSDKAPI.instance.sharedStorage.getItem(timerWidgetStorageKey)
+          );
+          if (storedWidgetData && storedWidgetData.timerData) {
+            dispatchTimerActions(storedWidgetData.timerData);
+          }
+          AddOnSDKAPI.instance.on("storagechange", (event) => {
+            if (event.key === timerWidgetStorageKey) {
+              const timerData = JSON.parse(event.newValue).timerData;
+              dispatchTimerActions(timerData);
+            }
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      };
+
+      /**
+       * Utils
+       * */
+      window.getFormattedDate = () => {
+        const options = { weekday: "short", day: "numeric", month: "short" };
+        return new Intl.DateTimeFormat("en-US", options).format(new Date());
+      };
+
+      window.getFormattedTime = (timestamp) => {
+        const options = { hour: "numeric", minute: "numeric" };
+        const timeToConvert = timestamp ? new Date(timestamp) : new Date();
+        return new Intl.DateTimeFormat("en-US", options).format(timeToConvert);
+      };
+
+      window.renderTimerHTML = (timeLapsed) => {
+        let sec = timeLapsed;
+        let min = Math.floor(sec / 60);
+        sec = sec - min * 60;
+        const hr = Math.floor(min / 60);
+        min = min - hr * 60;
+
+        handleTimerHTML({ hr, min, sec });
+      };
+
+      function handleTimerHTML({ hr, min, sec }) {
+        let timerString = "";
+        if (hr > 0) {
+          timerString += (hr < 10 ? "0" + hr : hr) + ":";
+        }
+        timerString +=
+          (min < 10 ? "0" + min : min) + ":" + (sec < 10 ? "0" + sec : sec);
+
+        timerDiv.innerHTML = timerString;
+      }
+
+      window.showButtons = (ids) => {
+        if (!Array.isArray(ids)) {
+          ids = [ids];
+        }
+        const allButtons = [
+          "stopButton",
+          "startButton",
+          "pauseButton",
+          "resetButton",
+        ];
+        for (const id of allButtons) {
+          document.getElementById(id).style.display = ids.includes(id)
+            ? "inline-block"
+            : "none";
+        }
+      };
+
+      /**
+       * Timer actions
+       * */
+      const dispatchTimerActions = (timerData) => {
+        switch (timerData.lastAction) {
+          case startTimerKey:
+            startTimer(timerData, false);
+            break;
+          case pauseTimerKey:
+            pauseTimer(timerData, false);
+            break;
+          case stopTimerKey:
+            stopTimer(timerData, false);
+            break;
+          case resetTimerKey:
+            resetTimer(false);
+            break;
+        }
+      };
+
+      const dispatchTimerStorageAction = (timerData) => {
+        AddOnSDKAPI.instance.sharedStorage.setItem(
+          timerWidgetStorageKey,
+          JSON.stringify({
+            timerData,
+          })
+        );
+      };
+
+      window.startTimer = (timerData) => {
+        if (timerInterval) clearInterval(timerInterval);
+        curStartTime = Date.now();
+        document.getElementById("pluginNameSubtitle").innerHTML =
+          getFormattedDate();
+        if (timerData) {
+          curStartTime = timerData.lastActionTimestamp;
+          sec =
+            Math.round((Date.now() - timerData.lastActionTimestamp) / 1000) +
+            timerData.timeLapsed;
+        } else {
+          dispatchTimerStorageAction({
+            lastActionTimestamp: curStartTime,
+            lastAction: startTimerKey,
+            timeLapsed: sec,
+          });
+        }
+        runTimer();
+        timerRunning = true;
+        timerInterval = setInterval(runTimer, 1000);
+        showButtons(["pauseButton", "stopButton"]);
+        automationTestDataDump();
+      };
+
+      window.pauseTimer = (timerData) => {
+        if (timerInterval) clearInterval(timerInterval);
+        if (timerData) {
+          renderTimerHTML(timerData.timeLapsed);
+        } else {
+          dispatchTimerStorageAction({
+            lastActionTimestamp: Date.now(),
+            lastAction: pauseTimerKey,
+            timeLapsed: sec,
+          });
+        }
+
+        timerRunning = false;
+        showButtons(["startButton", "stopButton"]);
+        // SDK: Storage API
+        AddOnSDKAPI.instance.userStorage.removeItem("userStorageKey 1");
+        AddOnSDKAPI.instance.sharedStorage.removeItem("sharedStorageKey 1");
+      };
+
+      window.stopTimer = (timerData, updateInstances = true) => {
+        if (timerInterval) clearInterval(timerInterval);
+        if (timerData) {
+          renderTimerHTML(timerData.timeLapsed);
+          document.getElementById("timeSubtitle").innerHTML =
+            getFormattedTime(curStartTime) + " - " + getFormattedTime();
+        } else {
+          document.getElementById("timeSubtitle").innerHTML =
+            getFormattedTime(curStartTime) + " - " + getFormattedTime();
+          dispatchTimerStorageAction({
+            lastActionTimestamp: Date.now(),
+            lastAction: stopTimerKey,
+            timeLapsed: sec,
+          });
+        }
+        timerRunning = false;
+        showButtons("resetButton");
+      };
+
+      window.resetTimer = (updateInstances = true) => {
+        if (timerInterval) clearInterval(timerInterval);
+        if (updateInstances) {
+          dispatchTimerStorageAction({
+            startTime: curStartTime,
+            lastAction: "RESET",
+            lastActionTimestamp: Date.now(),
+          });
+        }
+        timerDiv.innerHTML = "00:00";
+        document.getElementById("timeSubtitle").innerHTML = "";
+        timerRunning = false;
+        sec = 0;
+        curStartTime = 0;
+        showButtons("startButton");
+      };
+
+      window.runTimer = () => {
+        if (!timerRunning) {
+          return;
+        }
+        sec++;
+        renderTimerHTML(sec);
+      };
+
+      /**
+       * Automation data dumps.
+       * */
+      const manifestDataDump = () => {
+        document.getElementById("test-data").textContent +=
+          manifest["name"] + ",";
+        document.getElementById("test-data").textContent +=
+          manifest["id"] + ",";
+        document.getElementById("test-data").textContent +=
+          manifest["main"] + ",";
+        document.getElementById("test-data").textContent +=
+          manifest["version"] + ",";
+
+        for (const app of manifest["requirements"]["apps"]) {
+          document.getElementById("test-data").textContent += app + ",";
+        }
+        for (const entryPoint of manifest["entryPoints"]) {
+          document.getElementById("test-data").textContent +=
+            entryPoint["type"] +
+            "," +
+            entryPoint["id"] +
+            "," +
+            entryPoint["label"]["default"] +
+            "," +
+            entryPoint["defaultSize"]["width"] +
+            "," +
+            entryPoint["defaultSize"]["height"] +
+            ",";
+        }
+      };
+
+      const automationTestDataDump = () => {
+        // SDK: Current theme
+        document.getElementById("test-data").textContent +=
+          AddOnSDKAPI.app.ui.theme + ",";
+        // SDK: Current locale
+        document.getElementById("test-data").textContent +=
+          AddOnSDKAPI.app.ui.locale + ",";
+        // SDK: Storage API
+        for (let item of AddOnSDKAPI.instance.userStorage.items()) {
+          document.getElementById("test-data").textContent += item + ",";
+        }
+        document.getElementById("test-data").textContent +=
+          AddOnSDKAPI.instance.userStorage.getItem("userStorageKey 1") + ",";
+        document.getElementById("test-data").textContent +=
+          AddOnSDKAPI.instance.userStorage.length + ",";
+        for (let item of AddOnSDKAPI.instance.sharedStorage.items()) {
+          document.getElementById("test-data").textContent += item + ",";
+        }
+        document.getElementById("test-data").textContent +=
+          manifest["version"] + ",";
+        document.getElementById("test-data").textContent +=
+          AddOnSDKAPI.instance.sharedStorage.length + ",";
+      };
+    </script>
+    <script src="./main.bundle.js"></script>
+    <script src="./vendor.js"></script>
+  </head>
+
+  <body>
+    <div id="main" class="flexContainer">
+      <div class="flexRow">
+        <div class="flexRowItem"></div>
+        <div class="buttonContainer">
+          <sp-button id="startButton" class="btn" onclick="startTimer()">
+            <i class="fa fa-play"></i>
+          </sp-button>
+          <sp-button id="pauseButton" class="btn" onclick="pauseTimer()">
+            <i class="fa fa-pause"></i>
+          </sp-button>
+          <sp-button id="stopButton" class="btn" onclick="stopTimer()">
+            <i class="fa fa-stop"></i>
+          </sp-button>
+          <sp-button id="resetButton" class="btn" onclick="resetTimer()">
+            <i class="fa fa-repeat"></i>
+          </sp-button>
+        </div>
+      </div>
+      <div class="flexRow">
+        <div id="pluginName" class="flexRowItem"></div>
+        <div id="time" class="flexRowItem">00:00</div>
+      </div>
+      <div class="flexRow subtitleRow">
+        <div id="pluginNameSubtitle" class="flexRowItem subtitle"></div>
+        <div id="timeSubtitle" class="flexRowItem subtitle"></div>
+      </div>
+    </div>
+    <div id="test-data" style="display: none"></div>
+  </body>
+</html>

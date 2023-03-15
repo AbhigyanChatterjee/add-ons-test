@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="Get started with Add-on development using TypeScript" />
+        <meta name="keywords" content="Adobe, Express, Add-On, TypeScript" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://use.typekit.net/blz8jox.css">
+        <title>Hello World</title>
+        <style>
+            body {
+                margin: 0;
+                /* height: 50vh; */
+                /* display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center; */
+                /* font-size: 1.25em; */
+            }
+            @font-face {
+                font-family: adobe-clean;
+                src: url('https://use.typekit.net/af/cb695f/000000000000000000017701/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3') format('woff2');
+                font-weight: 400;
+                font-style: normal;
+                font-display: swap;
+            }
+            @font-face {
+                font-family: adobe-clean;
+                src: url('https://use.typekit.net/af/eaf09c/000000000000000000017703/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3') format('woff2');
+                font-weight: 700;
+                font-style: normal;
+                font-display: swap;
+            }
+            @font-face {
+                font-family: adobe-clean;
+                src: url('https://use.typekit.net/af/40207f/0000000000000000000176ff/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3') format('woff2');
+                font-weight: 300;
+                font-style: normal;
+                font-display: swap;
+            }
+            @font-face {
+                font-family: adobe-clean;
+                src: url('https://use.typekit.net/af/4b3e87/000000000000000000017706/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n9&v=3') format('woff2');
+                font-weight: 900;
+                font-style: normal;
+                font-display: swap;
+            }
+            ng-node-graph {
+                position: absolute;
+                display: block;
+                bottom: 0;
+                height: 360px;
+                width: 100%;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+        <script>
+            WebFont.load({
+                typekit: { id: 'blz8jox' },
+                active: () => document.body.appendChild(document.createElement('prototype-app'))
+            });
+        </script>
+    <script type="module" src="index.js"></script></head>
+    <body>
+        <dashboard-index .env="plugin"></dashboard-index>
+    </body>
+    <!-- <script type="module">
+        import AddOnSdk from "https://stage.projectx.corp.adobe.com/static/add-on-sdk/sdk.js";
+
+        window.AddOnSdk = AddOnSdk;
+        AddOnSdk.ready.then(async () => {
+            console.log("AddOnSdk is ready for use.");
+        });
+    </script> -->
+</html>

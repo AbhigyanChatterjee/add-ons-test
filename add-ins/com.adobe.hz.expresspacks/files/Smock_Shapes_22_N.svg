@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="22" id="S_Shapes_22_N" viewBox="0 0 22 22" width="22">
+  <defs>
+    <style>
+      .fill {
+        fill: #6E6E6E;
+      }
+
+      
+    </style>
+  </defs>
+  <rect id="Canvas" fill="#ff13dc" opacity="0" width="22" height="22" /><path class="fill" d="M14.275,6.025A6.694,6.694,0,0,0,9.9,7.646L6.958,2.66a.275.275,0,0,0-.473,0L.039,13.569a.274.274,0,0,0,.236.414H7.668a6.723,6.723,0,1,0,6.607-7.958Zm0,11.975a5.246,5.246,0,0,1-5.1-4.017h3.991a.274.274,0,0,0,.236-.414L10.669,8.941A5.248,5.248,0,1,1,14.275,18Z" transform="translate(0)" />
+  </svg>

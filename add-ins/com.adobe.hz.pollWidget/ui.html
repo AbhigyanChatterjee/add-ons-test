@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="./main.bundle.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        font-family: "adobe-clean";
+      }
+
+      ::selection {
+        color: #fff;
+        background: #1473e6;
+      }
+
+      .wrapper {
+        background: #fff;
+        border-radius: 5px;
+        padding: 16px;
+        max-width: 500px;
+        width: 100%;
+      }
+
+      .wrapper .poll-area {
+        margin: 10px 0 10px 0;
+      }
+
+      header {
+        padding-bottom: 15px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .poll-area label {
+        display: block;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        padding: 8px 0;
+        transition: all 0.2s ease;
+      }
+
+      .poll-area label:hover {
+        background: #e4e4e4;
+      }
+
+      label.selected {
+        border-color: #1473e6 !important;
+      }
+
+      label .row {
+        display: flex;
+        pointer-events: none;
+        justify-content: space-between;
+      }
+
+      label .row .column {
+        display: flex;
+        align-items: center;
+      }
+
+      label .progress {
+        height: 7px;
+        width: 100%;
+        position: relative;
+        background: #f0f0f0;
+        margin: 8px 0 3px 0;
+        border-radius: 30px;
+        display: block;
+        pointer-events: none;
+      }
+
+      label .progress::after {
+        position: absolute;
+        content: "";
+        height: 100%;
+        background: #1473e6;
+        width: calc(1% * var(--w));
+        border-radius: inherit;
+        transition: all 0.2s ease;
+      }
+
+      input[type="radio"],
+      input[type="checkbox"] {
+        display: none;
+      }
+
+      a {
+        color: grey;
+        text-decoration: none;
+      }
+
+      .group sp-textfield {
+        margin-bottom: 8px;
+        width: 100%;
+      }
+
+      .group span,
+      label {
+        color: rgb(90, 90, 90);
+      }
+
+      #total-votes {
+        font-size: 11px;
+        color: grey;
+        font-weight: 300;
+      }
+      .groupSubject {
+        margin-bottom: 10px;
+      }
+
+      .groupSubject #poll-subject {
+        background-color: transparent;
+        border: 0px solid;
+        width: 100%;
+        height: 45px;
+        outline: none;
+        resize: none;
+      }
+
+      .groupAdd {
+        padding-top: 3px;
+        padding-bottom: 16px;
+      }
+
+      .groupBegin {
+        padding-top: 24px;
+      }
+
+      .error {
+        margin-top: 10px;
+        color: #f00;
+        font-size: 12px;
+        font-weight: 400;
+      }
+
+      #poll-loader {
+        position: absolute;
+        display: none;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        background-color: white;
+      }
+      sp-progress-circle {
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="poll-loader">
+      <sp-progress-circle indeterminate size="l"></sp-progress-circle>
+    </div>
+    <div id="poll-setup" class="wrapper">
+      <header class="spectrum-Heading spectrum-Heading--sizeXS">
+        <strong>Poll</strong>
+      </header>
+      <div class="groupSubject">
+        <textarea
+          id="poll-subject"
+          type="text"
+          placeholder="Type a question"
+          class="spectrum-Body spectrum-Body--sizeS"
+          style="text-decoration: none"
+        ></textarea>
+      </div>
+      <div id="option-wrapper"></div>
+      <div class="groupAdd" style="text-align: left">
+        <a
+          title="Add Option"
+          href="#"
+          class="spectrum-Body spectrum-Body--sizeXS"
+          style="color: grey"
+          onclick="addOption()"
+          >+ Add an Option
+        </a>
+      </div>
+
+      <hr />
+      <div class="groupBegin" style="text-align: center">
+        <sp-button onclick="beginPoll()">Start Poll</sp-button>
+      </div>
+
+      <div class="error" id="error"></div>
+    </div>
+    <div id="poll-results" class="wrapper" style="display: none">
+      <header>Poll</header>
+      <div class="group"><span id="poll-title"></span></div>
+      <div id="poll-wrapper" class="poll-area"></div>
+      <span id="total-votes"></span>
+    </div>
+    <script type="module">
+      // SDK: Import  SDK
+      import AddOnSDKAPI from "https://cces-wxp-sdk.stage.adobecces.com/sdk/1/sdk.js";
+
+      let _showingResults = false;
+      let _optionIndex = 0;
+      let userHasVoted = false;
+      let isPollLoading = false;
+      let totalVotes = 0;
+
+      let _userId = "";
+      let _widgetData = { pollSubject: "", pollOptions: [], votes: [] };
+      const startPollAction = "START_POLL";
+      const addVoteAction = "ADD_VOTE";
+
+      const beginPollKey = "sharedStorageKey:beginPoll";
+      const pollWidgetSharedStorageKey = "sharedStorageKey:pollWidgetData";
+      const pollWidgetUserStorageKey = "userStorageKey:userInfo";
+
+      window.onload = async function () {
+        isPollLoading = true;
+        _userId = create_UUID();
+        try {
+          await AddOnSDKAPI.ready;
+
+          const pollWidgetUserData = JSON.parse(
+            AddOnSDKAPI.instance.userStorage.getItem(pollWidgetUserStorageKey)
+          );
+          if (pollWidgetUserData) {
+            _userId = pollWidgetUserData.userId;
+          } else {
+            AddOnSDKAPI.instance.userStorage.setItem(
+              pollWidgetUserStorageKey,
+              JSON.stringify({ userId: _userId })
+            );
+          }
+
+          const pollWidgetData = JSON.parse(
+            AddOnSDKAPI.instance.sharedStorage.getItem(
+              pollWidgetSharedStorageKey
+            )
+          );
+          if (pollWidgetData) {
+            _widgetData = pollWidgetData.widgetData;
+            dataUpdated();
+            setCurrentUserSelectedOption();
+          }
+          // SDK: Subscribe to addIn "storagechange" events
+          AddOnSDKAPI.instance.on("storagechange", (event) => {
+            if (event.key === pollWidgetSharedStorageKey) {
+              const values = JSON.parse(event.newValue);
+              _widgetData = values.widgetData;
+              dataUpdated();
+              setCurrentUserSelectedOption();
+            }
+          });
+          isPollLoading = false;
+          toggleLoader();
+        } catch (e) {
+          console.log(e);
+        }
+      };
+
+      function create_UUID() {
+        var dt = new Date().getTime();
+        var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+          /[xy]/g,
+          function (c) {
+            var r = (dt + Math.random() * 16) % 16 | 0;
+            dt = Math.floor(dt / 16);
+            return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
+          }
+        );
+        return uuid;
+      }
+
+      const dispatchWidgetStorageAction = (widgetData) => {
+        AddOnSDKAPI.instance.sharedStorage.setItem(
+          pollWidgetSharedStorageKey,
+          JSON.stringify({ widgetData })
+        );
+      };
+
+      const setCurrentUserSelectedOption = () => {
+        const options = document.querySelectorAll("label");
+        let userSelectedOption = undefined;
+        const userSelectedOptionId = getCurrentUserSelectedOption();
+        for (let i = 0; i < options.length; i++) {
+          const forVal = options[i].getAttribute("for");
+          if (forVal === userSelectedOptionId) {
+            userSelectedOption = options[i];
+          }
+        }
+        if (userSelectedOption) setSelected(userSelectedOption, options);
+      };
+
+      const getCurrentUserSelectedOption = () => {
+        const currentUserVote = _widgetData.votes.filter((voteOption) => {
+          if (voteOption.votes.includes(_userId)) return true;
+        })[0];
+        return currentUserVote ? currentUserVote.id : "";
+      };
+
+      const addVote = (optionId, votedUser) => {
+        _widgetData.votes.sort((a, b) => {
+          const optionAIndex = a.id.split("poll-option-")[1];
+          const optionBIndex = b.id.split("poll-option-")[1];
+          return +optionAIndex - +optionBIndex;
+        });
+        const optionIndex = _widgetData.votes.findIndex(
+          (voteOption) => voteOption.id === optionId
+        );
+        let votes = [];
+        if (optionIndex >= 0) {
+          //remove existing vote for user
+          let existingUserSelectedOption = -1;
+          existingUserSelectedOption =
+            getCurrentUserSelectedOption().split("poll-option-")[1];
+          if (existingUserSelectedOption) {
+            const existingVotes =
+              _widgetData.votes[existingUserSelectedOption].votes;
+            const updatedVotes = existingVotes.filter(
+              (voteUser) => voteUser !== _userId
+            );
+            _widgetData.votes[+existingUserSelectedOption] = {
+              id: `poll-option-${existingUserSelectedOption}`,
+              votes: updatedVotes ? updatedVotes : [],
+            };
+          }
+          votes = _widgetData.votes[optionIndex].votes;
+          _widgetData.votes.splice(optionIndex, 1);
+          votes.push(votedUser);
+          _widgetData.votes.push({ id: optionId, votes: votes });
+        } else {
+          _widgetData.votes.push({ id: optionId, votes: [votedUser] });
+        }
+        if (votedUser === _userId) {
+          userHasVoted = true;
+          dispatchWidgetStorageAction(_widgetData, addVoteAction, {
+            optionId,
+            votedUser,
+          });
+        }
+        dataUpdated();
+      };
+
+      function dataUpdated() {
+        if (
+          _widgetData &&
+          _widgetData.pollSubject &&
+          _widgetData.pollOptions &&
+          _widgetData.votes
+        ) {
+          if (!_showingResults) {
+            createPoll();
+            showResults();
+          }
+
+          stylizePoll();
+
+          const votePercentages = getVotePercentages();
+          document.getElementById("total-votes").innerHTML =
+            totalVotes + (totalVotes === 1 ? " Vote" : " Votes");
+          for (let i = 0; i < _widgetData.pollOptions.length; i++) {
+            document
+              .getElementById(`option-progress-${i}`)
+              .setAttribute(
+                "style",
+                `--w: ${votePercentages.get(`poll-option-${i}`)}`
+              );
+          }
+        }
+      }
+
+      window.addOption = () => {
+        const optionWrapper = document.getElementById("option-wrapper");
+        const optionElement = document.createElement("div");
+
+        const group = document.createElement("div");
+        group.setAttribute("class", "group");
+
+        const optionLabel = document.createElement("span");
+
+        const pollOption = document.createElement("sp-textfield");
+        pollOption.setAttribute("type", "text");
+        pollOption.setAttribute("id", `poll-option-${_optionIndex}`);
+        pollOption.placeholder = `Option ${_optionIndex + 1}`;
+
+        group.appendChild(optionLabel);
+        group.appendChild(pollOption);
+
+        optionElement.appendChild(group);
+        optionWrapper.appendChild(optionElement);
+
+        _widgetData.votes[`poll-option-${_optionIndex}`] = [];
+        _optionIndex++;
+      };
+
+      addOption();
+      addOption();
+      addOption();
+      addOption();
+
+      function createPoll() {
+        document.getElementById("poll-title").innerHTML =
+          _widgetData.pollSubject;
+
+        const pollWrapper = document.getElementById("poll-wrapper");
+
+        const votePercentages = getVotePercentages();
+        document.getElementById("total-votes").innerHTML =
+          totalVotes + (totalVotes === 1 ? " Vote" : " Votes");
+        _widgetData.pollOptions.forEach((pollOption) => {
+          // Create option checkbox
+          const optionIndex = pollOption.id.split("poll-option-")[1];
+          const checkbox = document.createElement("input");
+          checkbox.setAttribute("type", "checkbox");
+          checkbox.setAttribute("name", "poll");
+          checkbox.setAttribute("id", pollOption.id);
+          pollWrapper.appendChild(checkbox);
+          // Create option label
+          const label = document.createElement("label");
+          label.setAttribute("for", pollOption.id);
+
+          const row = document.createElement("div");
+          row.setAttribute("class", "row");
+
+          const column = document.createElement("div");
+          column.setAttribute("class", "column");
+
+          const text = document.createElement("span");
+          text.setAttribute("class", "text");
+          text.innerHTML = pollOption.value;
+          column.appendChild(text);
+
+          row.appendChild(column);
+
+          const progress = document.createElement("div");
+          progress.setAttribute("id", `option-progress-${optionIndex}`);
+          progress.setAttribute("class", "progress");
+          progress.setAttribute(
+            "style",
+            `--w: ${votePercentages.get(`poll-option-${optionIndex}`)}`
+          );
+
+          label.appendChild(row);
+          label.appendChild(progress);
+
+          pollWrapper.appendChild(label);
+        });
+      }
+
+      const setSelected = (selectedOption, voteOptions) => {
+        for (let k = 0; k < voteOptions.length; k++) {
+          voteOptions[k].classList.add("selectall");
+          if (voteOptions[k].classList.contains("selected")) {
+            voteOptions[k].classList.remove("selected");
+          }
+        }
+        selectedOption.classList.add("selected");
+        let forVal = selectedOption.getAttribute("for");
+        let selectInput = document.querySelector("#" + forVal);
+        let getAtt = selectInput.getAttribute("type");
+
+        if (getAtt == "checkbox") {
+          selectInput.setAttribute("type", "radio");
+        } else if (selectInput.checked == true) {
+          selectedOption.classList.remove("selected");
+          selectInput.setAttribute("type", "checkbox");
+        }
+      };
+
+      function stylizePoll() {
+        const options = document.querySelectorAll("label");
+        for (let i = 0; i < options.length; i++) {
+          options[i].addEventListener("click", (event) => {
+            event.stopImmediatePropagation();
+            setSelected(options[i], options);
+            addVote(`poll-option-${i}`, _userId);
+          });
+        }
+      }
+
+      function showResults() {
+        _showingResults = true;
+
+        document
+          .getElementById("poll-setup")
+          .setAttribute("style", "display: none");
+        document
+          .getElementById("poll-results")
+          .setAttribute("style", "display: block");
+      }
+
+      function toggleLoader() {
+        const loaderContainer = document.getElementById("poll-loader");
+        if (!isPollLoading) {
+          loaderContainer.style.display = "none";
+          return;
+        }
+        loaderContainer.style.display = "flex";
+      }
+
+      window.beginPoll = async (updateInstances = true) => {
+        resetPoll();
+
+        _widgetData.pollSubject = document.getElementById("poll-subject").value;
+        if (
+          !_widgetData.pollSubject ||
+          _widgetData.pollSubject.trim().length === 0
+        ) {
+          showError("Poll should have a subject.");
+          return;
+        }
+
+        for (let i = 0; i < _optionIndex; i++) {
+          const id = `poll-option-${i}`;
+          const value = document.getElementById(id).value;
+
+          if (value && value.trim().length > 0) {
+            _widgetData.pollOptions.push({ id, value });
+            _widgetData.votes.push({ id, votes: [] });
+          }
+        }
+
+        if (_widgetData.pollOptions.length < 2) {
+          showError("Poll should have a minimum of 2 options.");
+          return;
+        }
+
+        dataUpdated();
+        dispatchWidgetStorageAction(_widgetData, startPollAction);
+      };
+
+      function getVotePercentages() {
+        let voteCounts = new Map();
+        totalVotes = 0;
+        let votePercentages = new Map();
+        if (_widgetData.votes.length > 0) {
+          _widgetData.votes.forEach((voteOption) => {
+            voteCounts.set(voteOption.id, voteOption.votes.length);
+            totalVotes += voteOption.votes.length;
+          });
+          _widgetData.pollOptions.forEach((pollOption) => {
+            const optionIndex = pollOption.id.split("poll-option-")[1];
+            if (totalVotes > 0 && voteCounts.has(pollOption.id)) {
+              votePercentages.set(
+                pollOption.id,
+                Math.round((voteCounts.get(pollOption.id) / totalVotes) * 100)
+              );
+            } else {
+              votePercentages.set(pollOption.id, 0);
+            }
+          });
+        }
+        return votePercentages;
+      }
+
+      function resetPoll() {
+        _widgetData.pollSubject = "";
+        _widgetData.pollOptions = [];
+        _widgetData.votes = [];
+
+        const error = document.getElementById("error");
+        error.setAttribute("style", "display: none");
+        error.innerHTML = "";
+
+        document.getElementById("poll-title").innerHTML = "";
+        document.getElementById("poll-wrapper").innerHTML = "";
+      }
+
+      function showError(message) {
+        const error = document.getElementById("error");
+        error.setAttribute("style", "display: block");
+        error.innerHTML = `* ${message}`;
+      }
+    </script>
+    <script src="./main.bundle.js"></script>
+    <script src="./vendor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+  </body>
+</html>

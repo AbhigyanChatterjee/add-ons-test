@@ -1,0 +1,57 @@
+:root {
+    --color-edges: #333;
+    --color-node-outline: #333;
+    --color-node-content: #fff;
+    --color-node-bg: #666;
+    --color-graph-bg: #bbb;
+    --size-node-border: 4px;
+    --size-port-target: 25px;
+}
+
+.theme-ocean {
+    --color-edges: #ffeb3b;
+    --color-node-outline: #3f51b5;
+    --color-node-content: #fff;
+    --color-node-bg: #2196f3;
+    --color-graph-bg: #20e3f7;
+}
+
+.theme-mastercard {
+    --color-edges: #fff;
+    --color-node-outline: #000;
+    --color-node-content: #fff;
+    --color-node-bg: #f44336;
+    --color-graph-bg: #ff9800;
+}
+
+.theme-turtles {
+    --color-edges: #e6ee9c;
+    --color-node-outline: #333;
+    --color-node-content: #cddc39;
+    --color-node-bg: #43a047;
+    --color-graph-bg: #81501e;
+}
+
+.theme-bees {
+    --color-edges: #673ab7;
+    --color-node-outline: #ffeb3b;
+    --color-node-content: #000000;
+    --color-node-bg: #ffc107;
+    --color-graph-bg: #d1c4e9;
+}
+
+.theme-outrun {
+    --color-edges: #ff88ba;
+    --color-node-outline: #c709e8;
+    --color-node-content: #dde6ff;
+    --color-node-bg: #1f4373;
+    --color-graph-bg: #2f0b5c;
+}
+
+.theme-sahara {
+    --color-edges: #f5bb36;
+    --color-node-outline: #c1ab7d;
+    --color-node-content: #445a24;
+    --color-node-bg: #ffe991;
+    --color-graph-bg: #fffbe2;
+}

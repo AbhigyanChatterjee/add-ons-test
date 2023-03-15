@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="./main.bundle.css" />
+        <style>
+            body {
+                padding: 10px;
+                margin: 0 !important;
+            }
+            #video-options-container {
+                margin: auto;
+                padding: 8px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+            #pluginURLInput {
+                width: 100%;
+            }
+            .input-field-label {
+                margin-right: auto;
+            }
+        </style>
+
+        <script type="module">
+            import AddInSDKAPI from "https://cces-wxp-sdk.stage.adobecces.com/sdk/1/sdk.js";
+            const setVideoKey = "ytube:setvideourl";
+            window.onload = async () => {
+                await AddInSDKAPI.ready;
+
+                const storedWidgetData = JSON.parse(
+                    AddInSDKAPI.instance.sharedStorage.getItem(setVideoKey)
+                );
+                if (storedWidgetData && storedWidgetData.url) {
+                    embedURL(storedWidgetData.url.toString());
+                }
+                AddInSDKAPI.instance.on("storagechange", event => {
+                    if (event.key === setVideoKey) {
+                        const values = JSON.parse(event.newValue);
+                        const videoUrl = values.url.toString();
+                        embedURL(videoUrl);
+                    }
+                });
+            };
+
+            window.onNameKeydown = textfield => {
+                if (event.key === "Enter" && textfield.value.length > 0) {
+                    embedURL();
+                }
+            };
+
+            window.getVideoId = url => {
+                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+                const match = url.match(regExp);
+
+                return match && match[2].length === 11 ? match[2] : null;
+            };
+
+            window.getEmbedURL = originalURL => {
+                return "https://www.youtube.com/embed/" + getVideoId(originalURL);
+            };
+
+            window.embedURL = videoUrl => {
+                let inputUrl = "";
+                inputUrl = document.getElementById("pluginURLInput").value;
+                const x = getEmbedURL(videoUrl ?? inputUrl);
+                if (!videoUrl) {
+                    AddInSDKAPI.instance.sharedStorage.setItem(
+                        setVideoKey,
+                        JSON.stringify({ url: x })
+                    );
+                }
+                const docBody = document.getElementsByTagName("body")[0];
+                docBody.style.padding = "0px !important";
+                const videoFrame = document.getElementById("embed-video-frame");
+                const videoOptionsContainer = document.getElementById("video-options-container");
+                videoOptionsContainer.style.display = "none";
+                const videoContainer = document.getElementById("video-container");
+                videoContainer.style.display = "flex";
+                videoContainer.style.overflow = "hidden";
+                videoContainer.style.width = "100%";
+                videoContainer.style.height = "93vh";
+                videoFrame.setAttribute("src", x);
+                videoFrame.style.margin = "auto";
+                videoFrame.style.borderRadius = "10px";
+                videoFrame.style.width = "100%";
+                videoFrame.style.height = "100%";
+            };
+        </script>
+        <script src="./main.bundle.js"></script>
+    </head>
+    <body>
+        <div id="video-container" style="display: none">
+            <iframe id="embed-video-frame" src=""></iframe>
+        </div>
+        <div id="video-options-container">
+            <sp-field-label class="input-field-label" for="pluginURLInput">URL</sp-field-label>
+            <sp-textfield
+                id="pluginURLInput"
+                type="url"
+                placeholder="Enter the youtube video URL"
+                onkeydown="onNameKeydown(this)"
+            ></sp-textfield>
+            <sp-action-button emphasized onclick="embedURL()">
+                <svg
+                    slot="icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="18"
+                    viewBox="0 0 18 18"
+                    width="18"
+                >
+                    <rect id="Canvas" fill="currentColor" opacity="0" width="18" height="18" />
+                    <path
+                        fill="currentColor"
+                        d="M10,6H1.5a.5.5,0,0,0-.5.5v5a.5.5,0,0,0,.5.5H10v3.4965a.25.25,0,0,0,.427.177L17.1,9,10.427,2.327A.25.25,0,0,0,10,2.5035Z"
+                    />
+                </svg>
+                Embed
+            </sp-action-button>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,34 @@
+{
+    "id": "com.adobe.hz.notes",
+    "name": "Notes",
+    "version": "1.0.0",
+    "manifestVersion": 1,
+    "main": "ui.html",
+    "requirements": { "apps": [ "Express" ] },
+    "icon": [
+        {
+            "width": 100,
+            "height": 100,
+            "path": "icon-light.png",
+            "theme": [ "light" ]
+        },
+        {
+            "width": 100,
+            "height": 100,
+            "path": "icon-dark.png",
+            "theme": [ "dark" ]
+        }
+    ],
+    "entryPoints": [
+        {
+            "type": "widget",
+            "id": "notes.entrypoint1",
+            "label": { "default": "Notes" },
+            "defaultSize": { "width": 300, "height": 396 }
+        }
+    ],
+    "authorInfo": {
+        "name": "Kerri Shotts",
+        "email": "shotts@adobe.com"
+    }
+}

@@ -1,0 +1,13 @@
+precision highp float;
+
+    	varying vec2 vUV;
+      
+    	uniform sampler2D textureSampler;
+      
+    	void main(void) {
+          float luminance = dot(texture2D(textureSampler, vUV).rgb, vec3(0.3, 0.59, 0.11));
+          vec4 lum = vec4(luminance,luminance,luminance,1.);
+          vec4 color1 = vec4(luminance,luminance,luminance,1.);
+          vec4 colorOverlay = color1 * luminance;
+          gl_FragColor = colorOverlay;
+    	}

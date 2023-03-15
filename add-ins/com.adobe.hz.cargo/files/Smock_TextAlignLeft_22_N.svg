@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="22" id="S_TextAlignLeft_22_N" viewBox="0 0 22 22" width="22">
+  <defs>
+    <style>
+      .fill {
+        fill: #6E6E6E;
+      }
+
+      
+    </style>
+  </defs>
+  <rect id="Canvas" fill="#ff13dc" opacity="0" width="22" height="22" /><rect class="fill" height="2" rx="0.5" ry="0.5" width="17" x="2.5" y="3" />
+  <rect class="fill" height="2" rx="0.5" ry="0.5" width="13" x="2.5" y="7.5" />
+  <rect class="fill" height="2" rx="0.5" ry="0.5" width="13" x="2.5" y="16.5" />
+  <rect class="fill" height="2" rx="0.5" ry="0.5" width="17" x="2.5" y="12" />
+  </svg>

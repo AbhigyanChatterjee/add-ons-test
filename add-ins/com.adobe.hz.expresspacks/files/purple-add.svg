@@ -1,0 +1,21 @@
+<svg id="Hunt_and_Gather_Add" data-name="Hunt and Gather Add" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="22" height="22" viewBox="0 0 22 22">
+  <defs>
+    <clipPath id="clip-path">
+      <circle id="circle" cx="11" cy="11" r="11" fill="#4646c6" stroke="#fff" stroke-width="4"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="0.814" y1="0.109" x2="0.214" y2="0.951" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f23ad6"/>
+      <stop offset="0.186" stop-color="#dc43f3"/>
+      <stop offset="0.502" stop-color="#c944fa"/>
+      <stop offset="0.823" stop-color="#9161ff"/>
+      <stop offset="1" stop-color="#6f6fff"/>
+    </linearGradient>
+  </defs>
+  <g id="Mask_Group_64497" data-name="Mask Group 64497" clip-path="url(#clip-path)">
+    <rect id="Rectangle_139246" data-name="Rectangle 139246" width="22" height="22" fill="url(#linear-gradient)"/>
+  </g>
+  <g id="plus" transform="translate(6 6)">
+    <rect id="Canvas" width="10" height="10" fill="#fff" opacity="0"/>
+    <path id="Path_91763" data-name="Path 91763" d="M10.346,6.194H7.472V3.319A.319.319,0,0,0,7.152,3H6.513a.319.319,0,0,0-.319.319V6.194H3.319A.319.319,0,0,0,3,6.513v.639a.319.319,0,0,0,.319.319H6.194v2.875a.319.319,0,0,0,.319.319h.639a.319.319,0,0,0,.319-.319V7.472h2.875a.319.319,0,0,0,.319-.319V6.513A.319.319,0,0,0,10.346,6.194Z" transform="translate(-1.856 -1.856)" fill="#fff"/>
+  </g>
+</svg>

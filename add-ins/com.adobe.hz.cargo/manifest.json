@@ -1,0 +1,32 @@
+{
+    "id": "com.adobe.hz.cargo",
+    "name" : "Cargo",
+    "version": "1.0",
+    "manifestVersion": 1,
+    "main": "index.html",
+    "requirements": {
+      "apps": ["Express"]
+    },
+    "entryPoints": [{
+      "type": "widget",
+      "id": "com.adobe.hz.cargo.entrypoint1",
+      "label": "Embed Figma",
+      "defaultSize" : {
+          "width" : 390,
+          "height" : 550
+      },
+      "permissions": {
+        "sandbox": ["allow-same-origin"]
+      }
+    }],
+    "icon": {
+      "width": 256,
+      "height": 256,
+      "path": "cargo.png",
+      "theme": ["all"]
+    },
+    "authorInfo": {
+      "name": "Adobe Inc.",
+      "email": "support@adobe.com"
+    }
+  }

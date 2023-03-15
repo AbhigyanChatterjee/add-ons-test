@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="Get started with Add-on development using JavaScript" />
+        <meta name="keywords" content="Adobe, Express, Add-On, JavaScript" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            body {
+                height: 50vh;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                font-size: 1.25em;
+                background-color: rgb(250, 250, 250);
+            }
+            img {
+                margin-bottom: 10px;
+                width: 75px;
+                height: 75px;
+            }
+            span {
+                font-size: 16px;
+                color: rgb(0, 0, 0);
+                white-space: nowrap;
+            }
+            .flexContainer {
+                display: flex;
+                flex-direction: row;
+            }
+            #animationButtonText {
+                color: white;
+                font-size: 14px;
+            }
+            button {
+                height: 32px;
+                border: 1px solid transparent;
+                border-radius: 16px;
+                background-color: rgb(43, 99, 213);
+                width: 152px;
+            }
+            button:hover {
+                background-color: rgb(43, 99, 180);
+            }
+            #clearArtboardContainer {
+                margin-top: 400px;
+            }
+            button,button {
+                margin-left: 10px;
+            }
+            #clearArtboard {
+                background-color: white;
+                border: 2px solid black;
+            }
+            #clearArtboard:hover {
+                background-color: rgb(240, 240, 240);
+            }
+            #clearArtboardText {
+                color: rgb(0, 0, 0);
+                font-size: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <img src="./smiley.png" id="smileyImg"></img>
+        <div class="flexContainer">
+            <button id="animationButton">
+                <span id="animationButtonText">Start Animation</span>
+            </button>
+            <button id="clearArtboard">
+                <span id="clearArtboardText">Clear Artboard</span>
+            </button>
+        </div>
+        <br/>
+        <div class="flexContainer">
+            <span style="margin-right: 5px;">Animation Status: </span>
+            <span style="margin-left: auto;" id="animationStatus">❌</span>
+        </div>
+        <script type="module">
+            import AddOnSdk from "https://project-x-30534.pr.hz.adobe.com/static/add-on-sdk/sdk.js";
+
+            AddOnSdk.ready.then(async () => {
+                console.log("AddOnSdk is ready for use.");
+
+                AddOnSdk.instance.script.onmessage = (msg) => {
+                    const { scriptMessage } = msg.data;
+                    switch (scriptMessage.type) {
+                        case "animationCompleted": {
+                            animationStatus.innerHTML = "✅";
+                        }
+                        break;
+                        case "nodeRotation": {
+                            const rotation = scriptMessage.rotation;
+                            const smileyImg = document.getElementById("smileyImg");
+                            smileyImg.style.transform = `rotate(${rotation}deg)`;
+                        }
+                        break;
+                        default:
+                            console.log("  ************************* ", scriptMessage);
+                        break;
+                    }
+                }
+
+                let animationButton = document.getElementById("animationButton");
+                animationButton.addEventListener("click", (e) => {
+                    const data = { "uiMessage": {
+                        "type": "startAnimation"
+                    }};
+                    const animationStatus = document.getElementById("animationStatus");
+                    animationStatus.innerHTML = "💡";
+                    AddOnSdk.instance.script.postMessage(data);
+                });
+
+                let clearArtboardButton = document.getElementById("clearArtboard");
+                clearArtboardButton.addEventListener("click", (e) => {
+                    const data = { "uiMessage": {
+                        "type": "clearArtboard"
+                    }};
+                    AddOnSdk.instance.script.postMessage(data);
+                });
+            });
+        </script>
+    </body>
+</html>

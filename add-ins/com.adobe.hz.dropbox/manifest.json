@@ -1,0 +1,34 @@
+{
+    "id": "dropbox",
+    "name": "Dropbox",
+    "version": "1.0.0",
+    "manifestVersion": 1,
+    "requirements": {
+        "apps": ["Express"]
+    },
+    "icon": [
+        {
+            "width": 100,
+            "height": 100,
+            "path": "icon.jpg",
+            "theme": ["all"]
+        }
+    ],
+    "entryPoints": [
+        {
+            "main": "index.html",
+            "type": "panel",
+            "id": "panel1",
+            "label": {
+                "default": "Dropbox"
+            },
+            "defaultSize": {
+                "width": 300,
+                "height": 625
+            },
+            "permissions": {
+                "oauth": ["www.dropbox.com"]
+            }
+        }
+    ]
+}
