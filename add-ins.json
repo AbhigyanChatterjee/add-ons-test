@@ -517,7 +517,7 @@
                 "versionString": "1.0",
                 "id": "com.adobe.hz.smiley",
                 "path": {
-                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.smiley/",
+                    "baseUrl": "https://abhigyanchatterjee.github.io/add-ons-test/add-ins/com.adobe.hz.smiley/",
                     "manifest": "manifest.json"
                 },
                 "localizedMetadata": [
@@ -533,10 +533,10 @@
                 "languages": ["en"],
                 "icons": [
                     {
-                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.smiley/icon.png"
+                        "href": "https://abhigyanchatterjee.github.io/add-ons-test/add-ins/com.adobe.hz.smiley/icon.png"
                     },
                     {
-                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.smiley/icon.png"
+                        "href": "https://abhigyanchatterjee.github.io/add-ons-test/add-ins/com.adobe.hz.smiley/icon.png"
                     }
                 ]
             },
