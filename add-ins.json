@@ -1,0 +1,546 @@
+{
+    "addIns": [
+        {
+            "id": "1eb7034a",
+            "type": "widget",
+            "versionLatest": true,
+            "version": {
+                "versionString": "1.0",
+                "id": "com.adobe.hz.embedFigma",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.embedFigma/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Embed Figma",
+                            "summary": "Used for Embedding Figma Plugins",
+                            "description": "Embed Figma Description"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"]
+            },
+            "isFirstParty": true
+        },
+        {
+            "id": "2eb7034a",
+            "type": "widget",
+            "versionLatest": true,
+            "version": {
+                "versionString": "2.0",
+                "id": "com.adobe.hz.embedYoutube",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.embedYoutube/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Embed Youtube",
+                            "summary": "Used for Embedding Youtube videos",
+                            "description": "Embed Youtube Description"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"]
+            },
+            "isFirstParty": true
+        },
+        {
+            "id": "3eb7034a",
+            "type": "widget",
+            "versionLatest": true,
+            "version": {
+                "versionString": "3.0",
+                "id": "com.adobe.hz.pollWidget",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.pollWidget/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Poll Widget",
+                            "summary": "Used to create polls",
+                            "description": "Poll Widget Description"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.pollWidget/icon-light.png"
+                    },
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.pollWidget/icon-dark.png"
+                    }
+                ]
+            },
+            "isFirstParty": false
+        },
+        {
+            "id": "4eb7034a",
+            "type": "widget",
+            "versionLatest": true,
+            "version": {
+                "versionString": "4.0",
+                "id": "com.adobe.hz.ticTacToe",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.ticTacToe/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Tic-tac-toe",
+                            "summary": "Tictactoe Game",
+                            "description": "Tictactoe Game Description"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.ticTacToe/tictactoe.png"
+                    }
+                ]
+            },
+            "isFirstParty": false
+        },
+        {
+            "id": "5eb7034a",
+            "type": "widget",
+            "versionLatest": true,
+            "version": {
+                "versionString": "5.0",
+                "id": "com.adobe.hz.timerPlugin",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.timerPlugin/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Timer Plugin",
+                            "summary": "It is a timer widget",
+                            "description": "Timer Widget Description"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.timerPlugin/icon-light.svg"
+                    },
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.timerPlugin/icon-dark.svg"
+                    }
+                ]
+            },
+            "isFirstParty": false
+        },
+        {
+            "id": "5eb7034a",
+            "type": "widget",
+            "versionLatest": true,
+            "version": {
+                "versionString": "1.0",
+                "id": "com.adobe.hz.cargo",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.cargo/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Cargo",
+                            "summary": "Adjustable artistic creations",
+                            "description": "Cargo description"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.cargo/cargo.png"
+                    },
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.cargo/cargo.png"
+                    }
+                ]
+            },
+            "isFirstParty": true
+        },
+        {
+            "id": "5eb7034a",
+            "type": "widget",
+            "versionLatest": true,
+            "version": {
+                "versionString": "1.0",
+                "id": "com.adobe.hz.cargo2",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.cargo2/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Cargo2",
+                            "summary": "Adjustable artistic creations",
+                            "description": "Cargo description"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.cargo2/cargo.png"
+                    },
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.cargo2/cargo.png"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "6eb7034a",
+            "type": "widget",
+            "versionLatest": true,
+            "version": {
+                "versionString": "1.0",
+                "id": "com.adobe.hz.codePlayground",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.codePlayground/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Code Playground",
+                            "summary": "Play with the APIs",
+                            "description": "Code Playground description"
+                        },
+                        "languages": "en"
+                    }
+                ],
+
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.codePlayground/icon-light.png"
+                    },
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.codePlayground/icon-dark.png"
+                    }
+                ]
+            },
+            "isFirstParty": false
+        },
+        {
+            "id": "e0a1e223",
+            "type": "widget",
+            "versionLatest": true,
+            "version": {
+                "versionString": "1.0",
+                "id": "com.adobe.hz.notes",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.notes/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Notes",
+                            "summary": "Add markdown-based notes to your canvas",
+                            "description": "Use markdown to add richly formatted content to your canvas"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.notes/icon-light.png"
+                    },
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.notes/icon-dark.png"
+                    }
+                ]
+            },
+            "isFirstParty": false
+        },
+        {
+            "id": "7eb7034a",
+            "type": "panel",
+            "versionLatest": true,
+            "version": {
+                "versionString": "1.0",
+                "id": "com.adobe.hz.unsplash",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.unsplash/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Unsplash",
+                            "summary": "Unsplash Listing UI",
+                            "description": "Unsplash Listing UI"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.unsplash/icon.png"
+                    },
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.unsplash/icon.png"
+                    }
+                ]
+            },
+            "isFirstParty": false
+        },
+        {
+            "id": "8eb7034a",
+            "type": "panel",
+            "versionLatest": true,
+            "version": {
+                "versionString": "1.0",
+                "id": "com.adobe.hz.pexels",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.pexels/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Pexels",
+                            "summary": "Pexels Search/Listing UI",
+                            "description": "Pexels Search/Listing UI"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.pexels/icon.png"
+                    },
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.pexels/icon.png"
+                    }
+                ]
+            },
+            "isFirstParty": false
+        },
+        {
+            "id": "9eb7034a",
+            "type": "panel",
+            "versionLatest": true,
+            "version": {
+                "versionString": "1.0",
+                "id": "com.adobe.hz.giphy",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.giphy/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Giphy",
+                            "summary": "Search and add Gifs to the document",
+                            "description": "Search and add Gifs to the document"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.giphy/icon.png"
+                    },
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.giphy/icon.png"
+                    }
+                ]
+            },
+            "isFirstParty": false
+        },
+        {
+            "id": "8eb7034a",
+            "type": "panel",
+            "versionLatest": true,
+            "version": {
+                "versionString": "1.0",
+                "id": "com.adobe.hz.qrcode",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.qrcode/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "QRCode",
+                            "summary": "Generate and add QR Code to the document",
+                            "description": "Generate and add QR Code to the document"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.qrcode/icon.png"
+                    },
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.qrcode/icon.png"
+                    }
+                ]
+            },
+            "isFirstParty": true
+        },
+        {
+            "id": "1fa2847b",
+            "type": "panel",
+            "versionLatest": true,
+            "version": {
+                "versionString": "1.0",
+                "id": "com.adobe.hz.dropbox",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.dropbox/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Dropbox",
+                            "summary": "Import images from Dropbox",
+                            "description": "Connect to your Dropbox account and import images into your Express document."
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.dropbox/icon.jpg"
+                    },
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.dropbox/icon.jpg"
+                    }
+                ]
+            },
+            "isFirstParty": false
+        },
+        {
+            "id": "9eb6124b",
+            "type": "panel",
+            "versionLatest": true,
+            "version": {
+                "versionString": "1.0",
+                "id": "com.adobe.hz.expresspacks",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.expresspacks/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Express Packs",
+                            "summary": "Adjustable creation packs",
+                            "description": "Generate adjustable creations from packs made by experts"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.expresspacks/icon.png"
+                    },
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.expresspacks/icon.png"
+                    }
+                ]
+            },
+            "isFirstParty": true
+        },
+        {
+            "id": "8eb8034a",
+            "type": "panel",
+            "versionLatest": true,
+            "version": {
+                "versionString": "1.0",
+                "id": "com.adobe.hz.exportSample",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.exportSample/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Export Sample",
+                            "summary": "Generate and configure rendition for a page or the whole document",
+                            "description": "Generate and configure rendition for a page or the whole document"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.exportSample/icon1.png"
+                    },
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.exportSample/icon1.png"
+                    }
+                ]
+            },
+            "isFirstParty": false
+        },
+        {
+            "id": "2fb8034a",
+            "type": "panel",
+            "versionLatest": true,
+            "version": {
+                "versionString": "1.0",
+                "id": "com.adobe.hz.smiley",
+                "path": {
+                    "baseUrl": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.smiley/",
+                    "manifest": "manifest.json"
+                },
+                "localizedMetadata": [
+                    {
+                        "values": {
+                            "name": "Smiley",
+                            "summary": "Script runtime add-on to test",
+                            "description": "generates animation based on script runtime add-on to test"
+                        },
+                        "languages": "en"
+                    }
+                ],
+                "languages": ["en"],
+                "icons": [
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.smiley/icon.png"
+                    },
+                    {
+                        "href": "https://cces-wxp-pkgs.stage.adobecces.com/v1/stage/add-ins/com.adobe.hz.smiley/icon.png"
+                    }
+                ]
+            },
+            "isFirstParty": false
+        }
+    ]
+}
